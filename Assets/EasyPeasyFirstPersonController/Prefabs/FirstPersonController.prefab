@@ -150,7 +150,6 @@ GameObject:
   - component: {fileID: 9206880949359800182}
   - component: {fileID: 9156347144040445544}
   - component: {fileID: 825849739443659256}
-  - component: {fileID: 2117943342763871691}
   - component: {fileID: 8960842529181895844}
   m_Layer: 2
   m_Name: FirstPersonController
@@ -305,23 +304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245deb3b698c6de4d80fdc6bcd905053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2117943342763871691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9156347144040445547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455521db0066b4b4280c34d2fdba6763, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Multiplayer.Center.NetcodeForGameObjectsExample::Unity.Multiplayer.Center.NetcodeForGameObjectsExample.ClientAuthoritativeMovement
-  ShowTopMostFoldoutHeaderGroup: 1
-  Speed: 14
-  playerCamera: {fileID: 9156347143994207883}
-  audioListener: {fileID: 9156347143994207884}
-  mouseSensitivity: 2
 --- !u!114 &8960842529181895844
 MonoBehaviour:
   m_ObjectHideFlags: 0
