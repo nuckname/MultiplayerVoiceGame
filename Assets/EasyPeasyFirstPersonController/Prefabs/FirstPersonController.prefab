@@ -241,15 +241,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  walkSpeed: 3
+  walkSpeed: 30
   sprintSpeed: 5
-  crouchSpeed: 1.5
+  crouchSpeed: 0
   jumpSpeed: 4
-  gravity: 9.81
-  slideDuration: 0.7
-  slideSpeed: 6
+  gravity: 0
+  slideDuration: 0
+  slideSpeed: 0
   mouseSensitivity: 2
-  strafeTiltAmount: 2
+  strafeTiltAmount: 0
   playerCamera: {fileID: 9156347143994207885}
   cameraParent: {fileID: 9156347144824098802}
   groundCheck: {fileID: 9156347144365898843}
@@ -288,10 +288,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16
   isInWater: 0
-  useFovKick: 1
-  useHeadBob: 1
-  useCameraTilt: 1
-  useClimbTilt: 1
+  useFovKick: 0
+  useHeadBob: 0
+  useCameraTilt: 0
+  useClimbTilt: 0
   currentStateDebug: 1
 --- !u!114 &825849739443659256
 MonoBehaviour:
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Multiplayer.Center.NetcodeForGameObjectsExample::Unity.Multiplayer.Center.NetcodeForGameObjectsExample.ClientAuthoritativeMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  Speed: 5
+  Speed: 14
   playerCamera: {fileID: 9156347143994207883}
   audioListener: {fileID: 9156347143994207884}
   mouseSensitivity: 2
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Multiplayer.Center.NetcodeForGameObjectsExample::Unity.Multiplayer.Center.NetcodeForGameObjectsExample.ClientNetworkTransform
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
+  NetworkTransformExpanded: 1
   AutoOwnerAuthorityTickOffset: 1
   PositionInterpolationType: 0
   RotationInterpolationType: 0
@@ -352,12 +352,12 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 1
+  SyncRotAngleX: 0
   SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
