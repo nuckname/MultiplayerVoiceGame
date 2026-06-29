@@ -19,30 +19,32 @@ namespace EasyPeasyFirstPersonController
         public float holdDrag = 10f;
         public float holdAngularDrag = 10f;
 
+        [Header("Leverage Settings")]
+        [Tooltip("Higher = objects feel drastically heavier when grabbed off-center")]
+        public float leverageSensitivity = 3.0f;
+
         private Rigidbody heldObject;
         private SpringJoint grabJoint;
         private float currentHoldDistance;
 
         private float originalDrag;
         private float originalAngularDrag;
+        private bool originalUseGravity;
 
         private void Awake()
         {
-            // Fail-safe 1: Auto-fetch the camera from the sibling FirstPersonController
             if (playerCamera == null)
             {
                 FirstPersonController fpc = GetComponent<FirstPersonController>();
                 if (fpc != null && fpc.cam != null) playerCamera = fpc.cam;
             }
 
-            // Fail-safe 2: Auto-generate the holdTarget anchor if left blank in Inspector
             if (holdTarget == null)
             {
                 holdTarget = new GameObject("PhysicsGrabber_HoldTarget");
                 holdTarget.transform.SetParent(this.transform);
             }
 
-            // Joints demand a Rigidbody on their host; set it Kinematic so gravity doesn't pull your target down
             Rigidbody targetRb = holdTarget.GetComponent<Rigidbody>();
             if (targetRb == null) targetRb = holdTarget.AddComponent<Rigidbody>();
             targetRb.isKinematic = true;
@@ -96,9 +98,11 @@ namespace EasyPeasyFirstPersonController
                     // adds sluggish so it doesn't freak out
                     originalDrag = rb.linearDamping;
                     originalAngularDrag = rb.angularDamping;
+                    originalUseGravity = rb.useGravity;
 
                     rb.linearDamping = holdDrag;
                     rb.angularDamping = holdAngularDrag;
+                    rb.useGravity = false;
 
                     //Spring Joint Getter
                     grabJoint = holdTarget.GetComponent<SpringJoint>();
@@ -116,8 +120,12 @@ namespace EasyPeasyFirstPersonController
                     grabJoint.connectedAnchor = heldObject.transform.InverseTransformPoint(hit.point);
 
                     // applies forces based on weight
-                    grabJoint.spring = springForce * heldObject.mass;
-                    grabJoint.damper = damper * heldObject.mass;
+                    float distToCenterOfMass = Vector3.Distance(hit.point, heldObject.worldCenterOfMass);
+                    float rawLeverage = 1f / (1f + (distToCenterOfMass * leverageSensitivity));
+                    float leverageFactor = Mathf.Clamp(rawLeverage, 0.25f, 1.0f);
+
+                    grabJoint.spring = (springForce * heldObject.mass) * leverageFactor;
+                    grabJoint.damper = (damper * heldObject.mass) * leverageFactor;
                     grabJoint.maxDistance = 0f;
                     grabJoint.minDistance = 0f;
 
@@ -136,17 +144,14 @@ namespace EasyPeasyFirstPersonController
             {
                 heldObject.linearDamping = originalDrag;
                 heldObject.angularDamping = originalAngularDrag;
+                heldObject.useGravity = originalUseGravity;
 
                 if (grabJoint != null)
                 {
                     Destroy(grabJoint);
                 }
 
-                NetworkObject netObj = heldObject.GetComponent<NetworkObject>();
-                if (netObj != null)
-                {
-                    RemoveOwnershipServerRpc(netObj.NetworkObjectId);
-                }
+                // Removed RemoveOwnershipServerRpc call to prevent 40ms zero-g network drop lag
 
                 heldObject = null;
             }
