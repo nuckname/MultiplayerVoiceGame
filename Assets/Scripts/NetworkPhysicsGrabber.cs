@@ -11,6 +11,10 @@ namespace EasyPeasyFirstPersonController
         public float maxGrabDistance = 15f;
         [SerializeField] private GameObject holdTarget;
 
+        [Header("Push & Pull Settings")]
+        public float scrollSensitivity = 1.5f;
+        public float minHoldDistance = 1.5f;
+
         [Header("Joint Settings")]
         public float springForce = 150f;
         public float damper = 15f;
@@ -71,6 +75,15 @@ namespace EasyPeasyFirstPersonController
 
             if (heldObject != null)
             {
+                // Handle mouse wheel scrolling to push / pull the object
+                float scrollDelta = mouse.scroll.ReadValue().y;
+                if (Mathf.Abs(scrollDelta) > 0.01f)
+                {
+                    // A standard hardware mouse wheel detent outputs +/- 120f. We normalize it.
+                    float scrollStep = (scrollDelta / 120f) * scrollSensitivity;
+                    currentHoldDistance = Mathf.Clamp(currentHoldDistance + scrollStep, minHoldDistance, maxGrabDistance);
+                }
+
                 Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * currentHoldDistance;
                 holdTarget.transform.position = targetPosition;
             }

@@ -631,6 +631,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 611057400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &755810257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 755810258}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &755810258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755810257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1936, y: -0.0576, z: -0.1355}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1828568149}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093932436 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5217699516932706594, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
@@ -727,7 +758,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Join As Cheif
+  m_Text: Join As Chef
 --- !u!222 &1134249161
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -831,23 +862,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7728301859889595873, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -2031770558727226015, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 755810258}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8127943920717919999, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
       insertIndex: -1
       addedObject: {fileID: 52259740}
     - targetCorrespondingSourceObject: {fileID: -8670861851630030831, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1828568147}
+      addedObject: {fileID: 1828568146}
     - targetCorrespondingSourceObject: {fileID: -8670861851630030831, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1828568146}
+      addedObject: {fileID: 1828568152}
     - targetCorrespondingSourceObject: {fileID: -8670861851630030831, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1828568145}
     - targetCorrespondingSourceObject: {fileID: -8670861851630030831, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1828568153}
+    - targetCorrespondingSourceObject: {fileID: -8670861851630030831, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1828568148}
+    - targetCorrespondingSourceObject: {fileID: -8670861851630030831, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1828568154}
     - targetCorrespondingSourceObject: {fileID: -5217699516932706594, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1093932440}
@@ -1560,27 +1600,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &1828568147
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828568141}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.1168577, y: 0.051846564, z: 0.1168594}
-  m_Center: {x: -0.21297394, y: -0.050190832, z: -0.11079929}
 --- !u!114 &1828568148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1627,6 +1646,60 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!4 &1828568149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2031770558727226015, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
+  m_PrefabInstance: {fileID: 1241871392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1828568152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828568141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a1e6cfcc9444500857ba1bbcc1b8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EasyPeasyFirstPersonController.OverrideCenterOfMass
+  centerOfMassTarget: {fileID: 755810258}
+--- !u!114 &1828568153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828568141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f8b0f8284864d0ca5ee837f1639d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EasyPeasyFirstPersonController.CustomObjectGravity
+  ShowTopMostFoldoutHeaderGroup: 1
+  gravityMultiplier: 70
+--- !u!64 &1828568154
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828568141}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -838102165072658032, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
 --- !u!1 &1851654244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,7 +1745,7 @@ GameObject:
   - component: {fileID: 1955503093}
   - component: {fileID: 1955503090}
   m_Layer: 5
-  m_Name: Join As Cheif
+  m_Name: Join As Chef
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

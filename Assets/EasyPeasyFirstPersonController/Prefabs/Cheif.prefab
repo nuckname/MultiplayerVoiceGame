@@ -48,10 +48,13 @@ MonoBehaviour:
   playerCamera: {fileID: 9156347143994207883}
   maxGrabDistance: 3000
   holdTarget: {fileID: 7772804266194619844}
+  scrollSensitivity: 1000
+  minHoldDistance: 1.5
   springForce: 150
   damper: 15
-  holdDrag: 10
-  holdAngularDrag: 10
+  holdDrag: 40
+  holdAngularDrag: 40
+  leverageSensitivity: 7
 --- !u!1 &7772804266194619844
 GameObject:
   m_ObjectHideFlags: 0
