@@ -168,7 +168,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 65, y: 65, z: 65}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9156347144824098802}
@@ -378,7 +378,7 @@ Transform:
   m_GameObject: {fileID: 9156347144365898844}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 9156347144755971338}
   - component: {fileID: 9156347144755971335}
   - component: {fileID: 9156347144755971336}
+  - component: {fileID: 3307359744178171866}
   m_Layer: 2
   m_Name: Capsule
   m_TagString: Untagged
@@ -475,6 +476,29 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3307359744178171866
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9156347144755971339}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.3294268
+  m_Height: 10.492759
+  m_Direction: 1
+  m_Center: {x: 0, y: 4.246376, z: 2.356223}
 --- !u!1 &9156347144824098803
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,6 +21,13 @@ namespace Unity.Multiplayer.Center.NetcodeForGameObjectsExample
         [Header("Character Prefabs")]
         [SerializeField] private GameObject m_ChiefPrefab;
         [SerializeField] private GameObject m_CatPrefab;
+        
+        [Header("Spawn Points")]
+        [SerializeField] private Transform m_ChiefSpawn;
+        [SerializeField] private Transform[] m_CatSpawns;
+
+        // We use this to cycle through cat spawns so they don't pile up
+        private int m_nextCatSpawnIndex = 0;
 
         void Awake()
         {
@@ -108,10 +115,35 @@ namespace Unity.Multiplayer.Center.NetcodeForGameObjectsExample
         {
             GameObject prefabToSpawn = isChief ? m_ChiefPrefab : m_CatPrefab;
 
-            GameObject instance = Instantiate(prefabToSpawn);
+            // 1. Figure out where they should go
+            Vector3 spawnPos = Vector3.zero;
+            Quaternion spawnRot = Quaternion.identity;
+
+            if (isChief && m_ChiefSpawn != null)
+            {
+                spawnPos = m_ChiefSpawn.position;
+                spawnRot = m_ChiefSpawn.rotation;
+            }
+            else if (!isChief && m_CatSpawns.Length > 0)
+            {
+                // Grab the next available cat spawn point
+                Transform catSpawn = m_CatSpawns[m_nextCatSpawnIndex];
+                spawnPos = catSpawn.position;
+                spawnRot = catSpawn.rotation;
+
+                // Move the index up by 1. If it hits the end of the array, loop back to 0 (Round-Robin)
+                m_nextCatSpawnIndex = (m_nextCatSpawnIndex + 1) % m_CatSpawns.Length;
+            }
+            else
+            {
+                Debug.LogWarning("Spawn points aren't assigned! Defaulting to 0,0,0.");
+            }
+
+            // 2. Instantiate with the correct position and rotation
+            GameObject instance = Instantiate(prefabToSpawn, spawnPos, spawnRot);
             NetworkObject netObj = instance.GetComponent<NetworkObject>();
 
-            // This officially binds the spawned Chief/Cat to that player's network connection
+            // 3. Bind to network
             netObj.SpawnAsPlayerObject(clientId, true);
         }
     }
