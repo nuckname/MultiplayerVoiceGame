@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 825849739443659256}
   - component: {fileID: 8960842529181895844}
   m_Layer: 2
-  m_Name: FirstPersonController
+  m_Name: Rat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
