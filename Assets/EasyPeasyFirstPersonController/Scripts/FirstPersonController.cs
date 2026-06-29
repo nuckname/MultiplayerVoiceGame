@@ -17,6 +17,11 @@ namespace EasyPeasyFirstPersonController
         public float mouseSensitivity = 2f;
         public float strafeTiltAmount = 2f;
 
+        [Header("Jump King Settings")]
+        public bool useJumpKingMechanic = true;
+        public float maxLeapForce = 18f;
+        public float maxChargeTime = 1.25f;
+
         [Header("References")]
         public Transform playerCamera;
         public Transform cameraParent;
@@ -33,6 +38,13 @@ namespace EasyPeasyFirstPersonController
         private float xRotation = 0f;
         private float currentTilt;
         private float tiltVelocity;
+
+        // Jump King Internal Tracking
+        private bool isChargingLeap = false;
+        private bool isAirborneFromLeap = false;
+        private float currentChargeTimer = 0f;
+        private float groundCheckLockTimer = 0f;
+        private Vector3 leapVelocity;
 
         public PlayerBaseState CurrentState { get => currentState; set => currentState = value; }
 
@@ -86,11 +98,10 @@ namespace EasyPeasyFirstPersonController
 
         void OnGUI()
         {
-            // Only show GUI for the local player to prevent overlapping text from remote clients
             if (!IsOwner) return; 
 
             if (currentState != null && Application.isEditor && currentStateDebug)
-                GUILayout.Label("Current State: " + currentState.GetType().Name);
+                GUILayout.Label("Current State: " + (isAirborneFromLeap ? "BALLISTIC_LEAP" : currentState.GetType().Name));
         }
 
         private void Awake()
@@ -108,17 +119,13 @@ namespace EasyPeasyFirstPersonController
 
             currentState = states.Grounded();
             currentState.EnterState();
-            
-            // Note: Cursor locking moved to OnNetworkSpawn
         }
 
-        // Added OnNetworkSpawn to handle multiplayer camera ownership
         public override void OnNetworkSpawn()
         {
             if (IsOwner)
             {
                 playerCamera.gameObject.SetActive(true);
-                
                 AudioListener listener = playerCamera.GetComponent<AudioListener>();
                 if (listener != null) listener.enabled = true;
 
@@ -128,7 +135,6 @@ namespace EasyPeasyFirstPersonController
             else
             {
                 playerCamera.gameObject.SetActive(false);
-                
                 AudioListener listener = playerCamera.GetComponent<AudioListener>();
                 if (listener != null) listener.enabled = false;
             }
@@ -136,14 +142,102 @@ namespace EasyPeasyFirstPersonController
 
         private void Update()
         {
-            // Stop remote players from executing movement and camera logic
             if (!IsOwner) return; 
 
-            isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundMask, QueryTriggerInteraction.Ignore);
+            // Handle momentary launch ground-lock
+            if (groundCheckLockTimer > 0)
+            {
+                groundCheckLockTimer -= Time.deltaTime;
+                isGrounded = false;
+            }
+            else
+            {
+                isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundMask, QueryTriggerInteraction.Ignore);
+            }
 
-            currentState.UpdateState();
+            if (useJumpKingMechanic)
+            {
+                HandleJumpKingLogic();
+            }
+
+            // --- BALLISTIC FLIGHT TAKEOVER ---
+            // While leaping, we bypass the normal State Machine so it can't delete our X/Z velocity
+            if (isAirborneFromLeap)
+            {
+                if (HasCeiling()) leapVelocity.y = -2f; // Head bonk!
+
+                leapVelocity.y -= gravity * Time.deltaTime;
+
+                // Apply gentle air-drag to horizontal movement so jumps feel weighty
+                leapVelocity.x = Mathf.Lerp(leapVelocity.x, 0, Time.deltaTime * 0.4f);
+                leapVelocity.z = Mathf.Lerp(leapVelocity.z, 0, Time.deltaTime * 0.4f);
+
+                characterController.Move(leapVelocity * Time.deltaTime);
+
+                // Touchdown check
+                if (isGrounded && leapVelocity.y <= 0)
+                {
+                    isAirborneFromLeap = false;
+                    moveDirection = Vector3.zero;
+                }
+
+                HandleRotation();
+                UpdateVisuals();
+                return; // <--- This 'return' stops the standard State Machine from running this frame
+            }
+
+            // Normal grounded/walking states
+            if (!isChargingLeap)
+            {
+                currentState.UpdateState();
+            }
+
             HandleRotation();
             UpdateVisuals();
+        }
+
+        private void HandleJumpKingLogic()
+        {
+            // 1. Start Charge
+            if (isGrounded && input.jumpPressed && !isChargingLeap && !isAirborneFromLeap)
+            {
+                isChargingLeap = true;
+                currentChargeTimer = 0f;
+                moveDirection = Vector3.zero; 
+            }
+
+            // 2. Cancel if pushed off a ledge while charging
+            if (isChargingLeap && !isGrounded)
+            {
+                isChargingLeap = false;
+            }
+
+            // 3. Charging Loop
+            if (isChargingLeap)
+            {
+                currentChargeTimer += Time.deltaTime;
+                float chargePercent = Mathf.Clamp01(currentChargeTimer / maxChargeTime);
+
+                if (input.jumpReleased || chargePercent >= 1.0f)
+                {
+                    isChargingLeap = false;
+                    isAirborneFromLeap = true; // Hijack Update()
+
+                    Vector3 barrelOfCamera = playerCamera.forward;
+
+                    // THE HORIZON FIX: 
+                    // Guarantee the Y vector is at least 0.35f (roughly a 20-degree upward arc). 
+                    // This forces looking straight ahead to result in a massive forward Long-Jump rather than a face-plant.
+                    if (barrelOfCamera.y < 0.35f)
+                    {
+                        barrelOfCamera.y = 0.35f;
+                        barrelOfCamera.Normalize(); 
+                    }
+
+                    leapVelocity = barrelOfCamera * (chargePercent * maxLeapForce);
+                    groundCheckLockTimer = 0.2f; 
+                }
+            }
         }
 
         private void HandleRotation()
@@ -165,16 +259,13 @@ namespace EasyPeasyFirstPersonController
 
         public void UpdateVisuals()
         {
-            if (!useFovKick)
-            {
-                targetFov = normalFov;
-            }
+            if (!useFovKick) targetFov = normalFov;
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, targetFov, ref fovVelocity, 1f / fovChangeSpeed);
 
             landingMomentum = Mathf.Lerp(landingMomentum, 0, Time.deltaTime * 10f);
             float newY = Mathf.Lerp(cameraParent.localPosition.y, targetCameraY, Time.deltaTime * 8f);
 
-            if (useHeadBob && characterController.velocity.magnitude > 0.1f && isGrounded)
+            if (useHeadBob && characterController.velocity.magnitude > 0.1f && isGrounded && !isChargingLeap)
             {
                 bobTimer += Time.deltaTime * currentBobSpeed;
                 float bobOffset = Mathf.Sin(bobTimer) * currentBobIntensity;
@@ -205,11 +296,9 @@ namespace EasyPeasyFirstPersonController
             if (Physics.Raycast(wallOrigin, transform.forward, out wallHit, ledgeDetectionDistance, ledgeLayer, QueryTriggerInteraction.Ignore))
             {
                 Vector3 ledgeOrigin = wallOrigin + Vector3.up * 0.6f + transform.forward * 0.2f;
-                RaycastHit ledgeHit;
-
                 if (!Physics.Raycast(ledgeOrigin, transform.forward, 0.5f, groundMask))
                 {
-                    if (Physics.Raycast(ledgeOrigin + transform.forward * 0.4f, Vector3.down, out ledgeHit, 1f, groundMask))
+                    if (Physics.Raycast(ledgeOrigin + transform.forward * 0.4f, Vector3.down, out RaycastHit ledgeHit, 1f, groundMask))
                     {
                         climbPosition = ledgeHit.point + Vector3.up * 1f;
                         return true;
@@ -221,22 +310,14 @@ namespace EasyPeasyFirstPersonController
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!IsSpawned || !IsOwner) return; // Prevent remote clients from triggering local water physics
-
-            if (((1 << other.gameObject.layer) & waterMask) != 0)
-            {
-                isInWater = true;
-            }
+            if (!IsSpawned || !IsOwner) return; 
+            if (((1 << other.gameObject.layer) & waterMask) != 0) isInWater = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (!IsSpawned || !IsOwner) return;
-
-            if (((1 << other.gameObject.layer) & waterMask) != 0)
-            {
-                isInWater = false;
-            }
+            if (((1 << other.gameObject.layer) & waterMask) != 0) isInWater = false;
         }
     }
 }

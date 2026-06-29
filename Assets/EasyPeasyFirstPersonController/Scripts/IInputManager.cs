@@ -10,5 +10,7 @@ namespace EasyPeasyFirstPersonController
         bool sprint { get; }
         bool crouch { get; }
         bool slide { get; }
+        bool jumpPressed { get; }
+        bool jumpReleased { get; }
     }
 }

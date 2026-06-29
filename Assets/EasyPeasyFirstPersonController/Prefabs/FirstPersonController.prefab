@@ -153,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 9156347143994207886}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.026, z: 0.357}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -369,11 +369,14 @@ MonoBehaviour:
   sprintSpeed: 5
   crouchSpeed: 0
   jumpSpeed: 4
-  gravity: 0
-  slideDuration: 0
-  slideSpeed: 0
+  gravity: 10
+  slideDuration: 3
+  slideSpeed: 3
   mouseSensitivity: 2
   strafeTiltAmount: 0
+  useJumpKingMechanic: 1
+  maxLeapForce: 100
+  maxChargeTime: 5
   playerCamera: {fileID: 9156347143994207885}
   cameraParent: {fileID: 9156347144824098802}
   groundCheck: {fileID: 9156347144365898843}
