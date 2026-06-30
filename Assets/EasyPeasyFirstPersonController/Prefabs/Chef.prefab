@@ -125,8 +125,6 @@ MonoBehaviour:
   holdTarget: {fileID: 7772804266194619844}
   scrollSensitivity: 1000
   minHoldDistance: 1.5
-  rotationSpeed: 120
-  rotateRelativeToWorld: 1
   springForce: 150
   damper: 15
   holdDrag: 40
@@ -508,11 +506,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  walkSpeed: 30
+  walkSpeed: 300
   sprintSpeed: 5
-  crouchSpeed: 0
+  crouchSpeed: 4
   jumpSpeed: 4
-  gravity: 10
+  gravity: 0
   slideDuration: 3
   slideSpeed: 3
   mouseSensitivity: 2
@@ -520,15 +518,15 @@ MonoBehaviour:
   useJumpKingMechanic: 1
   maxLeapForce: 100
   maxChargeTime: 5
-  playerCamera: {fileID: 9156347143994207885}
-  cameraParent: {fileID: 9156347144824098802}
-  groundCheck: {fileID: 9156347144365898843}
+  playerCamera: {fileID: 0}
+  cameraParent: {fileID: 0}
+  groundCheck: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 64
   characterController: {fileID: 0}
-  moveDirection: {x: 0, y: 0, z: 0}
-  isGrounded: 0
+  moveDirection: {x: 0, y: -2, z: 0}
+  isGrounded: 1
   normalFov: 60
   sprintFov: 70
   slideFovBoost: 5
@@ -537,16 +535,16 @@ MonoBehaviour:
   bobSpeed: 12
   recoilReturnSpeed: 5
   cam: {fileID: 0}
-  targetFov: 0
-  currentBobIntensity: 0
-  currentBobSpeed: 0
+  targetFov: 60
+  currentBobIntensity: 0.001
+  currentBobSpeed: 12
   targetTilt: 0
   standingCameraHeight: 1.75
   crouchingCameraHeight: 1
   crouchingCharacterControllerHeight: 1
   standingCharacterControllerHeight: 1.8
   standingCharacterControllerCenter: {x: 0, y: 0.9, z: 0}
-  targetCameraY: 0
+  targetCameraY: 1.75
   ledgeLayer:
     serializedVersion: 2
     m_Bits: 1

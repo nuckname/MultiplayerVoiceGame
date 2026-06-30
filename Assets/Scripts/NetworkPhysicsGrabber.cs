@@ -20,8 +20,9 @@ namespace EasyPeasyFirstPersonController
         public float damper = 15f;
 
         [Header("Stability")]
-        public float holdDrag = 10f;
-        public float holdAngularDrag = 10f;
+        [Tooltip("Lowered from 10. Too much drag makes objects feel like they are floating in water.")]
+        public float holdDrag = 3f; 
+        public float holdAngularDrag = 2f;
 
         [Header("Leverage Settings")]
         [Tooltip("Higher = objects feel drastically heavier when grabbed off-center")]
@@ -59,11 +60,9 @@ namespace EasyPeasyFirstPersonController
         {
             if (!IsOwner) return;
 
-            // Grab reference to the active mouse
             var mouse = Mouse.current;
             if (mouse == null) return; 
 
-            // New Input System syntax for Left Click
             if (mouse.leftButton.wasPressedThisFrame)
             {
                 TryGrab();
@@ -75,11 +74,9 @@ namespace EasyPeasyFirstPersonController
 
             if (heldObject != null)
             {
-                // Handle mouse wheel scrolling to push / pull the object
                 float scrollDelta = mouse.scroll.ReadValue().y;
                 if (Mathf.Abs(scrollDelta) > 0.01f)
                 {
-                    // A standard hardware mouse wheel detent outputs +/- 120f. We normalize it.
                     float scrollStep = (scrollDelta / 120f) * scrollSensitivity;
                     currentHoldDistance = Mathf.Clamp(currentHoldDistance + scrollStep, minHoldDistance, maxGrabDistance);
                 }
@@ -105,44 +102,47 @@ namespace EasyPeasyFirstPersonController
                     heldObject = rb;
                     currentHoldDistance = hit.distance;
 
-                    //important to set the position before parenting, otherwise the object will snap to the holdTarget's position
                     holdTarget.transform.position = hit.point;
 
-                    // adds sluggish so it doesn't freak out
+                    // Cache original values
                     originalDrag = rb.linearDamping;
                     originalAngularDrag = rb.angularDamping;
                     originalUseGravity = rb.useGravity;
 
+                    // Apply stability drag, but leave gravity ON so it naturally drops based on mass
                     rb.linearDamping = holdDrag;
                     rb.angularDamping = holdAngularDrag;
-                    rb.useGravity = false;
+                    rb.useGravity = originalUseGravity; 
 
-                    //Spring Joint Getter
                     grabJoint = holdTarget.GetComponent<SpringJoint>();
                     if (grabJoint == null)
                     {
                         grabJoint = holdTarget.AddComponent<SpringJoint>();
-                        Debug.LogWarning("Component doesnt have spring joint");
                     }
 
                     grabJoint.connectedBody = heldObject;
 
-                    // off set
                     grabJoint.autoConfigureConnectedAnchor = false;
                     grabJoint.anchor = Vector3.zero; 
                     grabJoint.connectedAnchor = heldObject.transform.InverseTransformPoint(hit.point);
 
-                    // applies forces based on weight
                     float distToCenterOfMass = Vector3.Distance(hit.point, heldObject.worldCenterOfMass);
                     float rawLeverage = 1f / (1f + (distToCenterOfMass * leverageSensitivity));
                     float leverageFactor = Mathf.Clamp(rawLeverage, 0.25f, 1.0f);
 
-                    grabJoint.spring = (springForce * heldObject.mass) * leverageFactor;
-                    grabJoint.damper = (damper * heldObject.mass) * leverageFactor;
+                    // CORE FIX: Use the square root of the mass.
+                    // If you multiply linearly (springForce * mass), mass cancels out against gravity 
+                    // and every object sags the exact same amount. Squaring the root means heavier objects 
+                    // get a stronger spring so they don't break the joint, but they will still sag noticeably 
+                    // lower and swing heavier than light objects.
+                    float weightFeelMultiplier = Mathf.Pow(heldObject.mass, 0.6f); 
+
+                    grabJoint.spring = (springForce * weightFeelMultiplier) * leverageFactor;
+                    grabJoint.damper = (damper * weightFeelMultiplier) * leverageFactor;
                     grabJoint.maxDistance = 0f;
                     grabJoint.minDistance = 0f;
 
-                    Debug.Log("grabbed: " + heldObject.name);
+                    Debug.Log("grabbed: " + heldObject.name + " | Mass: " + heldObject.mass);
                 }
                 else if (rb != null && netObj == null)
                 {
@@ -163,8 +163,6 @@ namespace EasyPeasyFirstPersonController
                 {
                     Destroy(grabJoint);
                 }
-
-                // Removed RemoveOwnershipServerRpc call to prevent 40ms zero-g network drop lag
 
                 heldObject = null;
             }
