@@ -91,7 +91,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2526438589456944220
 Transform:
   m_ObjectHideFlags: 0
@@ -125,11 +125,11 @@ MonoBehaviour:
   holdTarget: {fileID: 7772804266194619844}
   scrollSensitivity: 1000
   minHoldDistance: 1.5
-  springForce: 150
-  damper: 15
-  holdDrag: 40
-  holdAngularDrag: 40
-  leverageSensitivity: 7
+  springForce: 3
+  damper: 1
+  holdDrag: 1
+  holdAngularDrag: 2
+  leverageSensitivity: 50
 --- !u!1 &7772804266194619844
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 9156347144040445544}
   - component: {fileID: 825849739443659256}
   - component: {fileID: 8960842529181895844}
+  - component: {fileID: 8899532609863448254}
   m_Layer: 2
   m_Name: Chef
   m_TagString: Untagged
@@ -518,9 +519,9 @@ MonoBehaviour:
   useJumpKingMechanic: 1
   maxLeapForce: 100
   maxChargeTime: 5
-  playerCamera: {fileID: 0}
-  cameraParent: {fileID: 0}
-  groundCheck: {fileID: 0}
+  playerCamera: {fileID: 9156347143994207885}
+  cameraParent: {fileID: 9156347144824098802}
+  groundCheck: {fileID: 9156347144365898843}
   groundMask:
     serializedVersion: 2
     m_Bits: 64
@@ -619,6 +620,23 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &8899532609863448254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9156347144040445547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f199055669dc3438ed920a023d19b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  force: 600
+  damping: 6
+  distance: 400
+  playerCamera: {fileID: 9156347143994207883}
 --- !u!1 &9156347144365898844
 GameObject:
   m_ObjectHideFlags: 0

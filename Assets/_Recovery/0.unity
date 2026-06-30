@@ -1133,7 +1133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2089714567
+  GlobalObjectIdHash: 875936554
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 790567710
+  GlobalObjectIdHash: 580207237
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -5922,11 +5922,11 @@ GameObject:
   - component: {fileID: 7161732351796850980}
   - component: {fileID: 1164434821573596015}
   - component: {fileID: 76433524946869570}
+  - component: {fileID: 7161732351796850981}
   - component: {fileID: 7161732351796850982}
   - component: {fileID: 7161732351796850983}
   - component: {fileID: 7161732351796850984}
   - component: {fileID: 7161732351796850985}
-  - component: {fileID: 7161732351796850986}
   m_Layer: 8
   m_Name: mesh1722620986
   m_TagString: Untagged
@@ -11940,13 +11940,35 @@ Transform:
   m_GameObject: {fileID: 2513636155190834979}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.70710677, z: -0.70710677, w: 0}
-  m_LocalPosition: {x: -0.237, y: 0.1629, z: -0.2001}
+  m_LocalPosition: {x: -0.237, y: 0.157, z: -0.2001}
   m_LocalScale: {x: 0.58458, y: 0.58458, z: 0.58458}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2003816085}
   m_Father: {fileID: 543450652458095563}
   m_LocalEulerAnglesHint: {x: -90, y: -90, z: -90}
+--- !u!64 &7161732351796850981
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2513636155190834979}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3638659689378906727, guid: c76ba3ebdc52d8c44a345179cfb55160, type: 3}
 --- !u!54 &7161732351796850982
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11971,9 +11993,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 0
 --- !u!114 &7161732351796850983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11986,7 +12008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2096345772
+  GlobalObjectIdHash: 1449865275
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -12060,27 +12082,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EasyPeasyFirstPersonController.CustomObjectGravity
   ShowTopMostFoldoutHeaderGroup: 1
   gravityMultiplier: 40
---- !u!65 &7161732351796850986
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2513636155190834979}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.1864422, y: 0.3891893, z: 0.03416566}
-  m_Center: {x: 0.24135458, y: 0.19276725, z: -0.37940624}
 --- !u!4 &7170826419679182711
 Transform:
   m_ObjectHideFlags: 0
@@ -13996,7 +13997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1484090865
+  GlobalObjectIdHash: 1422168289
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
